@@ -15,6 +15,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
@@ -23,6 +24,8 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -44,6 +47,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyBottomAppBar()
 {
@@ -52,6 +56,10 @@ fun MyBottomAppBar()
         mutableStateOf(Icons.Default.Home)
     }
     val navigationController = rememberNavController()
+    val sheetState = rememberModalBottomSheetState()
+    var showBottomSheet by remember {
+        mutableStateOf(false)
+    }
 
 
     Scaffold(
@@ -77,8 +85,10 @@ fun MyBottomAppBar()
                      tint = if (selected.value ==Icons.Default.Search) Color.White else Color.DarkGray)
              }
 
-             FloatingActionButton(onClick = {Toast.makeText(context,"Floating Action Button",
-                 Toast.LENGTH_SHORT).show()},
+             FloatingActionButton(
+                 onClick = {
+                   showBottomSheet = true//for bottom sheet
+                 },
                  modifier = Modifier.weight(1f),
                  containerColor = Color.White,
                  contentColor = Color.DarkGray) {
@@ -99,15 +109,25 @@ fun MyBottomAppBar()
                  Icon(Icons.Default.Info,null,
                      tint = if (selected.value== Icons.Default.Info)Color.White else Color.DarkGray)
              }
+
+             //Adding bottom sheet logic
+             if (showBottomSheet)
+             {
+                 ModalBottomSheet(
+                     onDismissRequest = {
+                         showBottomSheet = false
+                     },
+                     sheetState = sheetState
+                 ) {
+                     Text(text = "Hello bottom sheet", modifier = Modifier.padding(15.dp))
+                 }
+             }
+
          }
         }
     ) {paddingValues ->
         Box(modifier = Modifier.padding(paddingValues))
         {
-//            NavHost(navigationController, Screens.Home.text)
-//            {
-//
-//            }
 
             NavHost(
                 navController = navigationController, startDestination = Screens.Home.text
@@ -120,11 +140,7 @@ fun MyBottomAppBar()
             }
         }
     }
-
 }
-
-
-
 
 @Preview(showBackground = true)
 @Composable
