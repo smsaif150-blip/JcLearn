@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -14,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
@@ -21,8 +23,12 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,6 +38,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.learnjetpackcompose.Screen.Screens
 import com.example.learnjetpackcompose.ui.theme.GreenJc
 import com.example.learnjetpackcompose.ui.theme.LearnJetpackComposeTheme
+import com.example.learnjetpackcompose.ui.theme.Post
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,19 +117,6 @@ fun MyBottomAppBar()
                      tint = if (selected.value== Icons.Default.Info)Color.White else Color.DarkGray)
              }
 
-             //Adding bottom sheet logic
-             if (showBottomSheet)
-             {
-                 ModalBottomSheet(
-                     onDismissRequest = {
-                         showBottomSheet = false
-                     },
-                     sheetState = sheetState
-                 ) {
-                     Text(text = "Hello bottom sheet", modifier = Modifier.padding(15.dp))
-                 }
-             }
-
          }
         }
     ) {paddingValues ->
@@ -136,9 +130,70 @@ fun MyBottomAppBar()
                 composable(Screens.Message.text){Message()}
                 composable(Screens.Search.text){Search()}
                 composable(Screens.Info.text){Info()}
+                composable(Screens.Post.text){ Post()}
+                composable(Screens.Star.text){Star()}
 
             }
         }
+    }
+    //Adding bottom sheet logic
+    if (showBottomSheet)
+    {
+        ModalBottomSheet(
+            onDismissRequest = {
+                showBottomSheet = false
+            },
+            sheetState = sheetState
+        ) {
+         ShowBottomSheet(Icons.Default.ThumbUp,"Post ") {
+             showBottomSheet = false
+             navigationController.navigate(Screens.Post.text){
+                 popUpTo(0)
+             }
+         }
+
+           ShowBottomSheet(Icons.Default.Star,"Rate now") {
+               showBottomSheet = false
+               navigationController.navigate(Screens.Star.text)
+           }
+            ShowBottomSheet(Icons.Default.ThumbUp,"Post ") {
+             showBottomSheet = false
+             navigationController.navigate(Screens.Post.text){
+                 popUpTo(0)
+             }
+         }
+
+           ShowBottomSheet(Icons.Default.Star,"Rate now") {
+               showBottomSheet = false
+               navigationController.navigate(Screens.Star.text)
+           }
+            ShowBottomSheet(Icons.Default.ThumbUp,"Post ") {
+             showBottomSheet = false
+             navigationController.navigate(Screens.Post.text){
+                 popUpTo(0)
+             }
+         }
+
+           ShowBottomSheet(Icons.Default.Star,"Rate now") {
+               showBottomSheet = false
+               navigationController.navigate(Screens.Star.text)
+           }
+
+
+        }
+    }
+}
+
+@Composable
+fun ShowBottomSheet(image: ImageVector,title: String,onClick:() -> Unit)
+{
+    Row(modifier = Modifier.fillMaxWidth().clickable{onClick()}
+        .padding(vertical = 12.dp, horizontal = 20.dp),
+        verticalAlignment = Alignment.CenterVertically)
+    {
+        Icon(image,null, tint = GreenJc)
+        Spacer(modifier = Modifier.width(12.dp))
+        Text(text = title, fontSize = 15.sp)
     }
 }
 

@@ -6,4 +6,6 @@ sealed class Screens(var text: String)
     object Search: Screens("search")
     object Message: Screens("message")
     object Info: Screens("info")
+    object Post: Screens("post")
+    object Star: Screens("star")
 }
