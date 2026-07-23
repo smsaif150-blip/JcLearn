@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -64,111 +65,139 @@ fun MyBottomAppBar()
     val selected = remember {
         mutableStateOf(Icons.Default.Home)
     }
-    val context = LocalContext.current.applicationContext
     var showBottomSheet by remember {
         mutableStateOf(false)
     }
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Whats app") },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = GreenJc,
-                    navigationIconContentColor = Color.White,
-                    titleContentColor = Color.White
-                ),
-                navigationIcon = {
-                    IconButton(onClick = {scope.launch { drawerState.open() }}) {
-                        Icon(Icons.Default.Menu,null)
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        gesturesEnabled = true,
+        drawerContent = {
+            ModalDrawerSheet {
+                Box(modifier = Modifier.background(GreenJc).fillMaxWidth().height(150.dp))
+
+                Divider()
+
+                NavigationDrawerItem(
+                    label = { Text(text = "Star") },
+                    selected = false,
+                    icon = {Icon(Icons.Default.Star,null, tint = GreenJc)},
+                    onClick = {
+                        scope.launch{
+                            drawerState.close()
+                        }
+                        navController.navigate(Screens.Star.text){
+                            popUpTo(0)
+                        }
                     }
-                }
-            )
-        },
-
-
-
-
-        bottomBar = {
-            BottomAppBar(containerColor = GreenJc) {
-                IconButton(
-                    onClick =
-                        {
-                            selected.value = Icons.Default.Home
-                            navController.navigate(Screens.Home.text)
-                        },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Icon(Icons.Default.Home,
-                        null,
-                        tint = if (selected.value== Icons.Default.Home)Color.White
-                        else Color.DarkGray)
-                }
-
-                IconButton(
-                    onClick = {
-                        selected.value = Icons.Default.Search
-                        navController.navigate(Screens.Search.text)
-                    },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Icon(Icons.Default.Search,null,
-                        tint = if (selected.value== Icons.Default.Search) Color.White else Color.DarkGray)
-                }
-
-                FloatingActionButton(
-                    onClick = {
-                        showBottomSheet = true
-                    },
-                    modifier = Modifier.weight(1f),
-                    containerColor = Color.White,
-                    contentColor = Color.DarkGray
-                ) {
-                    Icon(Icons.Default.Add,null)
-                }
-
-
-                IconButton(
-                    onClick =
-                        {
-                            selected.value = Icons.Default.Email
-                            navController.navigate(Screens.Message.text)
-                        },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Icon(Icons.Default.Email,null,
-                        tint = if (selected.value == Icons.Default.Email)Color.White else Color.DarkGray)
-                }
-
-                IconButton(
-                    onClick = {
-                        selected.value = Icons.Default.Info
-                        navController.navigate(Screens.Info.text)
-                    },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Icon(Icons.Default.Info,null,
-                        tint = if (selected.value == Icons.Default.Info) Color.White else Color.DarkGray)
-                }
+                )
             }
         }
-    )
-    {innerpaddng->
-        Box(modifier = Modifier.padding(innerpaddng))
-        {
-            NavHost(navController = navController, startDestination = Screens.Home.text)
+    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = "Whats app") },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = GreenJc,
+                        navigationIconContentColor = Color.White,
+                        titleContentColor = Color.White
+                    ),
+                    navigationIcon = {
+                        IconButton(onClick = {scope.launch { drawerState.open() }}) {
+                            Icon(Icons.Default.Menu,null)
+                        }
+                    }
+                )
+            },
+
+            bottomBar = {
+                BottomAppBar(containerColor = GreenJc) {
+                    IconButton(
+                        onClick =
+                            {
+                                selected.value = Icons.Default.Home
+                                navController.navigate(Screens.Home.text)
+                            },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(Icons.Default.Home,
+                            null,
+                            tint = if (selected.value== Icons.Default.Home)Color.White
+                            else Color.DarkGray)
+                    }
+
+                    IconButton(
+                        onClick = {
+                            selected.value = Icons.Default.Search
+                            navController.navigate(Screens.Search.text)
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(Icons.Default.Search,null,
+                            tint = if (selected.value== Icons.Default.Search) Color.White else Color.DarkGray)
+                    }
+
+                    FloatingActionButton(
+                        onClick = {
+                            showBottomSheet = true
+                        },
+                        modifier = Modifier.weight(1f),
+                        containerColor = Color.White,
+                        contentColor = Color.DarkGray
+                    ) {
+                        Icon(Icons.Default.Add,null)
+                    }
+
+
+                    IconButton(
+                        onClick =
+                            {
+                                selected.value = Icons.Default.Email
+                                navController.navigate(Screens.Message.text)
+                            },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(Icons.Default.Email,null,
+                            tint = if (selected.value == Icons.Default.Email)Color.White else Color.DarkGray)
+                    }
+
+                    IconButton(
+                        onClick = {
+                            selected.value = Icons.Default.Info
+                            navController.navigate(Screens.Info.text)
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(Icons.Default.Info,null,
+                            tint = if (selected.value == Icons.Default.Info) Color.White else Color.DarkGray)
+                    }
+                }
+            }
+
+
+
+        )
+        {innerpaddng->
+            Box(modifier = Modifier.padding(innerpaddng))
             {
-                composable(Screens.Home.text){Home()}
-                composable(Screens.Search.text){Search()}
-                composable(Screens.Message.text){Message()}
-                composable(Screens.Info.text){Info()}
-                composable(Screens.Post.text){Post()}
-                composable(Screens.Star.text){Star()}
+                NavHost(navController = navController, startDestination = Screens.Home.text)
+                {
+                    composable(Screens.Home.text){Home()}
+                    composable(Screens.Search.text){Search()}
+                    composable(Screens.Message.text){Message()}
+                    composable(Screens.Info.text){Info()}
+                    composable(Screens.Post.text){Post()}
+                    composable(Screens.Star.text){Star()}
+                }
             }
         }
     }
+
+
 
 
     if (showBottomSheet)
