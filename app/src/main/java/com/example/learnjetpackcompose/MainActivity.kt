@@ -1,8 +1,8 @@
 package com.example.learnjetpackcompose
 
 
+
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -34,13 +34,17 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.learnjetpackcompose.Function.LoginPage
 import com.example.learnjetpackcompose.Screen.Screens
 import com.example.learnjetpackcompose.ui.theme.GreenJc
 import com.example.learnjetpackcompose.ui.theme.LearnJetpackComposeTheme
 import com.example.learnjetpackcompose.ui.theme.Post
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -49,9 +53,20 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LearnJetpackComposeTheme {
-                Surface {
-                    MyBottomAppBar()
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = Screens.Login.text) {
+
+                    composable(Screens.Login.text){
+                        LoginPage(navController)
+                    }
+                    composable(Screens.Home.text)
+                    {
+                        Home()
+                    }
+
                 }
+
+
             }
         }
     }
@@ -61,38 +76,38 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MyBottomAppBar()
 {
+    val drawerState =rememberDrawerState(initialValue = DrawerValue.Closed)
     val navController = rememberNavController()
-    val selected = remember {
+    val scope = rememberCoroutineScope()
+    val selectedIcon = remember {
         mutableStateOf(Icons.Default.Home)
     }
-    var showBottomSheet by remember {
+    var BottomSheet by remember {
         mutableStateOf(false)
     }
     val sheetState = rememberModalBottomSheetState()
-    val scope = rememberCoroutineScope()
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
     ModalNavigationDrawer(
         drawerState = drawerState,
         gesturesEnabled = true,
         drawerContent = {
             ModalDrawerSheet {
-                Box(modifier = Modifier.background(GreenJc).fillMaxWidth().height(150.dp))
-
+                Box(modifier = Modifier
+                    .background(GreenJc)
+                    .fillMaxWidth()
+                    .height(150.dp))
                 Divider()
-
                 NavigationDrawerItem(
-                    label = { Text(text = "Star") },
+                    label = {Text(text = "Star")},
                     selected = false,
-                    icon = {Icon(Icons.Default.Star,null, tint = GreenJc)},
                     onClick = {
-                        scope.launch{
+                        selectedIcon.value = Icons.Default.Star
+                        navController.navigate(Screens.Star.text)
+                        scope.launch {
                             drawerState.close()
                         }
-                        navController.navigate(Screens.Star.text){
-                            popUpTo(0)
-                        }
-                    }
+                    },
+                    icon = { Icon(Icons.Default.Star,null, tint = GreenJc) }
                 )
             }
         }
@@ -100,138 +115,103 @@ fun MyBottomAppBar()
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(text = "Whats app") },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = GreenJc,
-                        navigationIconContentColor = Color.White,
-                        titleContentColor = Color.White
-                    ),
+                    title = {Text(text = "Whatsapp")},
                     navigationIcon = {
-                        IconButton(onClick = {scope.launch { drawerState.open() }}) {
+                        IconButton(onClick =
+                            {
+                                scope.launch {
+                                    drawerState.open()
+                                }
+                            }
+                        ) {
                             Icon(Icons.Default.Menu,null)
                         }
-                    }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = GreenJc,
+                        titleContentColor = Color.White,
+                        navigationIconContentColor = Color.White
+                    )
                 )
             },
 
             bottomBar = {
                 BottomAppBar(containerColor = GreenJc) {
-                    IconButton(
-                        onClick =
-                            {
-                                selected.value = Icons.Default.Home
-                                navController.navigate(Screens.Home.text)
-                            },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Icon(Icons.Default.Home,
-                            null,
-                            tint = if (selected.value== Icons.Default.Home)Color.White
-                            else Color.DarkGray)
+                    IconButton(onClick = {selectedIcon.value = Icons.Default.Home
+                        navController.navigate(Screens.Home.text)
+                    }, modifier = Modifier.weight(1f)) {
+                        Icon(Icons.Default.Home,null, tint =
+                                if (selectedIcon.value == Icons.Default.Home)
+                                    Color.White
+                                else
+                                    Color.DarkGray
+                        )
                     }
 
-                    IconButton(
-                        onClick = {
-                            selected.value = Icons.Default.Search
-                            navController.navigate(Screens.Search.text)
-                        },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Icon(Icons.Default.Search,null,
-                            tint = if (selected.value== Icons.Default.Search) Color.White else Color.DarkGray)
-                    }
-
-                    FloatingActionButton(
-                        onClick = {
-                            showBottomSheet = true
+                    FloatingActionButton(onClick =
+                        {
+                            selectedIcon.value = Icons.Default.ThumbUp
+                            BottomSheet = true
                         },
                         modifier = Modifier.weight(1f),
-                        containerColor = Color.White,
-                        contentColor = Color.DarkGray
-                    ) {
-                        Icon(Icons.Default.Add,null)
-                    }
+                        contentColor = Color.DarkGray,
+                        content = { Icon(Icons.Default.Add, null) },
+                        containerColor = Color.White
+                    )
 
-
-                    IconButton(
-                        onClick =
-                            {
-                                selected.value = Icons.Default.Email
-                                navController.navigate(Screens.Message.text)
-                            },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Icon(Icons.Default.Email,null,
-                            tint = if (selected.value == Icons.Default.Email)Color.White else Color.DarkGray)
-                    }
-
-                    IconButton(
-                        onClick = {
-                            selected.value = Icons.Default.Info
-                            navController.navigate(Screens.Info.text)
-                        },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Icon(Icons.Default.Info,null,
-                            tint = if (selected.value == Icons.Default.Info) Color.White else Color.DarkGray)
+                    IconButton(onClick = {
+                        selectedIcon.value = Icons.Default.Search
+                        navController.navigate(Screens.Search.text)
+                    }, modifier = Modifier.weight(1f)) {
+                        Icon(Icons.Default.Search,null, tint =
+                        if (selectedIcon.value== Icons.Default.Search)
+                            Color.White
+                            else
+                            Color.DarkGray
+                        )
                     }
                 }
             }
 
-
-
-        )
-        {innerpaddng->
-            Box(modifier = Modifier.padding(innerpaddng))
+        ) {paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues))
             {
-                NavHost(navController = navController, startDestination = Screens.Home.text)
-                {
+                NavHost(navController=navController,
+                    startDestination = Screens.Home.text) {
                     composable(Screens.Home.text){Home()}
-                    composable(Screens.Search.text){Search()}
                     composable(Screens.Message.text){Message()}
-                    composable(Screens.Info.text){Info()}
-                    composable(Screens.Post.text){Post()}
+                    composable(Screens.Search.text){Search()}
                     composable(Screens.Star.text){Star()}
+                    composable(Screens.Post.text){Post()}
                 }
             }
         }
+
     }
 
-
-
-
-    if (showBottomSheet)
+    if (BottomSheet)
     {
         ModalBottomSheet(
             onDismissRequest = {
-                showBottomSheet = false
+                BottomSheet = false
             },
             sheetState = sheetState
         ) {
-            ShowBottomSheet(Icons.Default.ThumbUp,"Post") {
-                showBottomSheet = false
+            ShowBottomSheet(Icons.Default.ThumbUp,"Post"){
+                BottomSheet = false
                 navController.navigate(Screens.Post.text)
-            }
-
-            ShowBottomSheet(Icons.Default.Star,"Stars") {
-                showBottomSheet = false
-                navController.navigate(Screens.Star.text)
             }
         }
     }
 }
 
 @Composable
-fun ShowBottomSheet(Icon: ImageVector,title: String,onClick:() -> Unit)
-{
-    Row(modifier = Modifier.fillMaxWidth().clickable{onClick()}
-        .padding(vertical = 12.dp, horizontal = 20.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(Icon,null, tint = GreenJc)
+fun ShowBottomSheet(icon: ImageVector, title: String, onClick: () -> Unit) {
+    Row(modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp).fillMaxWidth().clickable{onClick()})
+    {
+        Icon(icon,null, tint = GreenJc)
         Spacer(modifier = Modifier.width(12.dp))
         Text(text = title)
-
     }
 }
 
@@ -239,6 +219,6 @@ fun ShowBottomSheet(Icon: ImageVector,title: String,onClick:() -> Unit)
 @Composable
 fun GreetingPreview() {
     LearnJetpackComposeTheme {
-        MyBottomAppBar()
+       //
     }
 }

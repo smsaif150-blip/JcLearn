@@ -8,4 +8,5 @@ sealed class Screens(var text: String)
     object Info: Screens("info")
     object Post: Screens("post")
     object Star: Screens("star")
+    object Login: Screens("login")
 }

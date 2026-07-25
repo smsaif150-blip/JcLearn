@@ -1,5 +1,6 @@
 package com.example.learnjetpackcompose.Function
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,15 +22,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.learnjetpackcompose.R
+import com.example.learnjetpackcompose.Screen.Screens
 
 @Composable
-fun LoginPage()
+fun LoginPage(navController: NavController)
 {
     var email by remember {
         mutableStateOf("")
@@ -38,6 +42,10 @@ fun LoginPage()
     var password by remember {
         mutableStateOf("")
     }
+
+    val loginEmail = "saif@gmail.com"
+    val loginPassword = "saif"
+    val context = LocalContext.current.applicationContext
 
     Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
         .imePadding(),//imepadding ইডিট টেক্সটা কিবোর্ডের উপরে দেখানোর জন্য
@@ -70,7 +78,19 @@ fun LoginPage()
             visualTransformation = PasswordVisualTransformation()
         )
 
-        Button(onClick = {}, modifier = Modifier.padding(vertical = 10.dp)) {
+        Button(onClick = {
+
+            if (email.trim()==loginEmail && password==loginPassword)
+            {
+                navController.navigate(Screens.Home.text)
+            }
+            else
+            {
+                Toast.makeText(context,"Wrong email or password",
+                    Toast.LENGTH_SHORT).show()
+            }
+
+        }, modifier = Modifier.padding(vertical = 10.dp)) {
             Text("Login")
         }
     }
