@@ -38,6 +38,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.learnjetpackcompose.Function.DisplayAlphabet
+import com.example.learnjetpackcompose.Function.LearnConstrains
 import com.example.learnjetpackcompose.Function.LoginPage
 import com.example.learnjetpackcompose.Screen.Screens
 import com.example.learnjetpackcompose.ui.theme.GreenJc
@@ -52,8 +53,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LearnJetpackComposeTheme {
-          val alphabet = mutableListOf("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q")
-                DisplayAlphabet(alphabet)
+            val alphabet = mutableListOf("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q")
+              LearnConstrains()
             }
         }
     }
@@ -66,6 +67,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     LearnJetpackComposeTheme {
-       //
+        LearnConstrains()
     }
 }
+
