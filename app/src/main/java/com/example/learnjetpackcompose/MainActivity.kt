@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -40,6 +41,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.learnjetpackcompose.Function.DisplayAlphabet
 import com.example.learnjetpackcompose.Function.LearnConstrains
 import com.example.learnjetpackcompose.Function.LoginPage
+import com.example.learnjetpackcompose.NavigationComponent.MyNavigation
+
+
 import com.example.learnjetpackcompose.Screen.Screens
 import com.example.learnjetpackcompose.ui.theme.GreenJc
 import com.example.learnjetpackcompose.ui.theme.LearnJetpackComposeTheme
@@ -53,8 +57,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LearnJetpackComposeTheme {
-            val alphabet = mutableListOf("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q")
-              LearnConstrains()
+                Surface {
+                    val navController = rememberNavController()
+                    MyNavigation(navController = navController)
+                }
             }
         }
     }
@@ -63,11 +69,12 @@ class MainActivity : ComponentActivity() {
 
 
 
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     LearnJetpackComposeTheme {
-        LearnConstrains()
+
     }
 }
 
