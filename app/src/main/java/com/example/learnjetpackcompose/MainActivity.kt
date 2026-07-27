@@ -41,10 +41,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.learnjetpackcompose.Function.DisplayAlphabet
 import com.example.learnjetpackcompose.Function.LearnConstrains
 import com.example.learnjetpackcompose.Function.LoginPage
+import com.example.learnjetpackcompose.MVVM.CounterFunction
+import com.example.learnjetpackcompose.MVVM.CounterViewModel
 import com.example.learnjetpackcompose.NavigationComponent.MyNavigation
 
 
 import com.example.learnjetpackcompose.Screen.Screens
+import com.example.learnjetpackcompose.Zomato.Zomato
 import com.example.learnjetpackcompose.ui.theme.GreenJc
 import com.example.learnjetpackcompose.ui.theme.LearnJetpackComposeTheme
 import com.example.learnjetpackcompose.ui.theme.Post
@@ -58,17 +61,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             LearnJetpackComposeTheme {
                 Surface {
-                    val navController = rememberNavController()
-                    MyNavigation(navController = navController)
+                    Zomato()
                 }
             }
         }
     }
 }
-
-
-
-
 
 @Preview(showBackground = true)
 @Composable
