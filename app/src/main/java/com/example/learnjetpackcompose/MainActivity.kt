@@ -38,6 +38,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.learnjetpackcompose.FloatingActionBar.PracticeExtendFloatingActionbar
+import com.example.learnjetpackcompose.FloatingActionBar.PracticeFloatingActionbar
 import com.example.learnjetpackcompose.Function.DisplayAlphabet
 import com.example.learnjetpackcompose.Function.LearnConstrains
 import com.example.learnjetpackcompose.Function.LoginPage
@@ -61,7 +63,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             LearnJetpackComposeTheme {
                 Surface {
-                    Zomato()
+                    Column(modifier = Modifier.padding(top = 24.dp)) {
+
+                    }
                 }
             }
         }

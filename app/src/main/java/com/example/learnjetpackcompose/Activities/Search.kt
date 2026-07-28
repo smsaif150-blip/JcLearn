@@ -1,4 +1,4 @@
-package com.example.learnjetpackcompose
+package com.example.learnjetpackcompose.Activities
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,20 +14,20 @@ import com.example.learnjetpackcompose.ui.theme.GreenJc
 import com.example.learnjetpackcompose.ui.theme.LearnJetpackComposeTheme
 
 @Composable
-fun Info()
+fun Search()
 {
     Box(modifier = Modifier.fillMaxSize()){
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Info", fontSize = 30.sp, color = GreenJc)
+            Text(text = "Search", fontSize = 30.sp, color = GreenJc)
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun InfoPreview() {
+fun GreetingPreview3() {
     LearnJetpackComposeTheme {
-        Info()
+        Search()
     }
 }

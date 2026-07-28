@@ -1,4 +1,4 @@
-package com.example.learnjetpackcompose
+package com.example.learnjetpackcompose.Activities
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

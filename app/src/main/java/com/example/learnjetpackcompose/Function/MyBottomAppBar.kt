@@ -42,12 +42,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.learnjetpackcompose.Home
-import com.example.learnjetpackcompose.Message
+import com.example.learnjetpackcompose.Activities.Home
+import com.example.learnjetpackcompose.Activities.Message
 import com.example.learnjetpackcompose.Screen.Screens
-import com.example.learnjetpackcompose.Search
+import com.example.learnjetpackcompose.Activities.Search
 //import com.example.learnjetpackcompose.ShowBottomSheet
-import com.example.learnjetpackcompose.Star
+import com.example.learnjetpackcompose.Activities.Star
 import com.example.learnjetpackcompose.ui.theme.GreenJc
 import com.example.learnjetpackcompose.ui.theme.Post
 import kotlinx.coroutines.launch

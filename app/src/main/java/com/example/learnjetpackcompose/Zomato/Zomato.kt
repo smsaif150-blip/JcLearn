@@ -161,7 +161,6 @@ fun CategoryCard(image: Int,name: String)
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun ZomatoPreview() {
