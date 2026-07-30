@@ -43,6 +43,7 @@ import com.example.learnjetpackcompose.FloatingActionBar.PracticeFloatingActionb
 import com.example.learnjetpackcompose.Function.DisplayAlphabet
 import com.example.learnjetpackcompose.Function.LearnConstrains
 import com.example.learnjetpackcompose.Function.LoginPage
+import com.example.learnjetpackcompose.LearnCheckBox.LearnCheckBox
 import com.example.learnjetpackcompose.MVVM.CounterFunction
 import com.example.learnjetpackcompose.MVVM.CounterViewModel
 import com.example.learnjetpackcompose.NavigationComponent.MyNavigation
@@ -64,7 +65,7 @@ class MainActivity : ComponentActivity() {
             LearnJetpackComposeTheme {
                 Surface {
                     Column(modifier = Modifier.padding(top = 24.dp)) {
-
+                        LearnCheckBox()
                     }
                 }
             }
