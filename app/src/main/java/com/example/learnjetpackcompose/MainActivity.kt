@@ -38,6 +38,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.learnjetpackcompose.DrawingApp.DrawingScreen
+import com.example.learnjetpackcompose.DrawingApp.MyDrawerScreen
 import com.example.learnjetpackcompose.FloatingActionBar.PracticeExtendFloatingActionbar
 import com.example.learnjetpackcompose.FloatingActionBar.PracticeFloatingActionbar
 import com.example.learnjetpackcompose.Function.DisplayAlphabet
@@ -63,15 +65,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LearnJetpackComposeTheme {
-                Surface {
-                    Column(modifier = Modifier.padding(top = 24.dp)) {
-                        LearnCheckBox()
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    MyDrawerScreen()
                     }
                 }
             }
         }
     }
-}
 
 @Preview(showBackground = true)
 @Composable
